@@ -3,14 +3,31 @@
     <v-row class="text-center">
       <v-col class="mb-5" cols="12">
         <v-form ref="form" v-model="valid" lazy-validation>
-          <v-text-field v-model="name" :counter="10" :rules="nameRules" label="Name" required></v-text-field>
-
-          <v-text-field v-model="email" :rules="emailRules" label="E-mail" required></v-text-field>
-
-          <v-text-field v-model="password" :rules="passwordRules" label="Password" required></v-text-field>
-
-          <v-btn :disabled="!valid" color="success" class="mr-4" @click="validate">
-            Registration
+          <v-text-field 
+            v-model="name" 
+            :counter="10" 
+            :rules="nameRules" 
+            label="Name" 
+            required>
+          </v-text-field>
+          <v-text-field 
+            v-model="email" 
+            :rules="emailRules" 
+            label="E-mail" 
+            required>
+          </v-text-field>
+          <v-text-field 
+            v-model="password" 
+            :rules="passwordRules" 
+            label="Password" 
+            required>
+          </v-text-field>
+          <v-btn 
+            :disabled="!valid" 
+            color="success" 
+            class="mr-4" 
+            @click="validate">
+              Registration
           </v-btn>
         </v-form>
       </v-col>
@@ -52,7 +69,7 @@ export default {
       this.registration();
     },
     async registration() {
-      axios.post(`http://localhost:8080/user/add`, { name: this.name, email: this.email, password: this.password });
+      axios.post(`http://localhost:8080/user`, { name: this.name, email: this.email, password: this.password });
       this.$router.push('/login')
     }
   },

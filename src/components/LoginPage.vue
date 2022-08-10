@@ -1,14 +1,35 @@
 <template>
     <v-container>
+        <v-row class="text-right">
+            <v-alert type="error" dismissible v-model="alert">
+                    {{this.ErrorMessage}}
+            </v-alert>
+        </v-row>
         <v-row class="text-center">
             <v-col class="mb-5" cols="12">
                 <v-form ref="form" v-model="valid" lazy-validation>
-                    <v-text-field v-model="name" :counter="10" :rules="nameRules" label="Name" required></v-text-field>
-
-                    <v-text-field v-model="password" :rules="passwordRules" label="Password" required></v-text-field>
-
-                    <v-btn :disabled="!valid" color="success" class="mr-4" @click="login">
-                        Login
+                    <v-text-field 
+                        v-model="email" 
+                        :rules="emailRules" 
+                        label="E-mail" required>
+                    </v-text-field>
+                    <v-text-field 
+                        v-model="password" 
+                        :rules="passwordRules" 
+                        label="Password" 
+                        required></v-text-field>
+                    <v-btn  
+                        color="success" 
+                        class="mr-4" 
+                        @click="registration">
+                            Registration
+                    </v-btn>
+                    <v-btn 
+                        :disabled="!valid" 
+                        color="success" 
+                        class="mr-4" 
+                        @click="authentification">
+                            Login
                     </v-btn>
                 </v-form>
             </v-col>
@@ -16,40 +37,39 @@
     </v-container>
 </template>
 <script >
-import axios from 'axios';
+import { mapActions, mapGetters } from 'vuex'
 export default {
     name: 'Login-Page',
+    computed: mapGetters(['getUser', 'getUserName', 'getUserId']),
     data: () => ({
+        alert: false,
+        ErrorMessage: '',
         valid: false,
-        name: '',
-        nameRules: [
-            v => !!v || 'Name is required',
-            v => (v && v.length <= 10) || 'Name must be less than 10 characters',
+        email: '',
+        emailRules: [
+            v => !!v || 'Email is required',
+            v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
         ],
         password: '',
         passwordRules: [
-            v => !!v || 'Password is required',
-            v => (v && v.length <= 10) || 'Password must be less than 10 characters',
+            v => !!v || 'Password is required'
         ],
 
     }),
     methods: {
-        login() {
+        ...mapActions(['login']),
+        async authentification() {
             this.$refs.form.validate();
-            this.registration();
+            await this.login({
+                email: this.email,
+                password: this.password
+            })
+            this.$router.push(`/personal/${this.getUserId}`)
         },
-        async registration() {
-            const answer = axios.post(`http://localhost:8080/user/login`, { name: this.name, password: this.password });
-            answer.then(text => {
-                if (text.data !== "credential invalid") {
-                    this.$router.push(`/personal/${text.data}`)
-                }
-                else {
-                    console.log("credential invalid")
-                }
-            }
-            )
-        }
+        registration() {
+            this.$router.push(`/registration`)
+        },
+        
     },
 }
 </script>
