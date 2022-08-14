@@ -41,6 +41,7 @@
 
 <script>
 import axios from 'axios';
+import config from '@/config';
 export default {
   name: 'Registration-Page',
 
@@ -48,18 +49,18 @@ export default {
     valid: false,
     name: '',
     nameRules: [
-      v => !!v || 'Name is required',
-      v => (v && v.length <= 10) || 'Name must be less than 10 characters',
+      v => !!v || config.validateErrors.required.name,
+      v => (v && v.length <= 10) || config.validateErrors.length.name,
     ],
     email: '',
     emailRules: [
-      v => !!v || 'E-mail is required',
-      v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
+      v => !!v || config.validateErrors.required.email,
+      v => /.+@.+\..+/.test(v) || config.validateErrors.valid.email,
     ],
     password: '',
     passwordRules: [
-      v => !!v || 'Password is required',
-      v => (v && v.length <= 10) || 'Password must be less than 10 characters',
+      v => !!v || config.validateErrors.required.password,
+      v => (v && v.length <= 10) || config.validateErrors.length.password,
     ],
 
   }),
@@ -69,7 +70,7 @@ export default {
       this.registration();
     },
     async registration() {
-      axios.post(`http://localhost:8080/user`, { name: this.name, email: this.email, password: this.password });
+      axios.post(`${config.backendURL}/user`, { name: this.name, email: this.email, password: this.password });
       this.$router.push('/login')
     }
   },

@@ -38,6 +38,7 @@
 </template>
 <script >
 import { mapActions, mapGetters } from 'vuex'
+import config from '@/config';
 export default {
     name: 'Login-Page',
     computed: mapGetters(['getUser', 'getUserName', 'getUserId']),
@@ -47,12 +48,12 @@ export default {
         valid: false,
         email: '',
         emailRules: [
-            v => !!v || 'Email is required',
-            v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
+            v => !!v || config.validateErrors.required.email,
+            v => /.+@.+\..+/.test(v) || config.validateErrors.valid.email,
         ],
         password: '',
         passwordRules: [
-            v => !!v || 'Password is required'
+            v => !!v || config.validateErrors.required.password
         ],
 
     }),

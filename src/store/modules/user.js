@@ -1,11 +1,10 @@
 import axios from 'axios';
-
-const backendURL =  "http://localhost:8080";
+import config from '../../config';
 
 export default {
     actions: {
         async login(ctx, {email, password}) {
-            const answer = await axios.post(`${backendURL}/user/login`, { email: email, password: password });
+            const answer = await axios.post(`${config.backendURL}/user/login`, { email: email, password: password });
             const data = await answer.data;
             ctx.commit('setCurrentUser', data)
         },

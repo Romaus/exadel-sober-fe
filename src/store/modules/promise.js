@@ -1,28 +1,27 @@
 import axios from 'axios';
-
-const backendURL =  "http://localhost:8080";
+import config from '../../config';
 
 export default {
     actions: {
         async loadPromiseFromServer(ctx, userId) {
-            const answer = await axios.get(`${backendURL}/promises/?userId=${userId}`);
+            const answer = await axios.get(`${config.backendURL}/promises/?userId=${userId}`);
             const ListPromises = await answer.data;
             ctx.commit('updatePromiseList', ListPromises)
         },
         async addPromise(ctx, {userId, addictionId, days }) {
-            const answer = await axios.post(`${backendURL}:8080/promises?userId=${userId}&addictionId=${addictionId}&days=${days}`);
+            const answer = await axios.post(`${config.backendURL}:8080/promises?userId=${userId}&addictionId=${addictionId}&days=${days}`);
             const ListPromises = await answer.data;
             ctx.commit('updatePromiseList', ListPromises)
         },
         async addReasonForPromise(ctx, {promiseId, reasonDescription}) {
-            const answer = await axios.post(`${backendURL}/promises/addReason`, {promiseId, description:reasonDescription});
+            const answer = await axios.post(`${config.backendURL}/promises/addReason`, {promiseId, description:reasonDescription});
             const ListPromises = await answer.data;
             ctx.commit('updatePromiseList', ListPromises)
             const currPromise = ListPromises.filter(promise => promise.promiseId === this.getters.getCurrentPromise.promiseId);
             ctx.commit('updateReasonsList', currPromise[0].reasons)
         },
         async removePromise(ctx, promiseId) {
-            const answer = await axios.delete(`${backendURL}/promises?promiseId=${promiseId}`);
+            const answer = await axios.delete(`${config.backendURL}/promises?promiseId=${promiseId}`);
             const ListPromises = await answer.data;
             ctx.commit('updatePromiseList', ListPromises)
         },
