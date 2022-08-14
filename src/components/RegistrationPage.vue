@@ -70,7 +70,7 @@ export default {
       this.registration();
     },
     async registration() {
-      axios.post(`${config.backendURL}/user`, { name: this.name, email: this.email, password: this.password });
+      await axios.post(`${config.backendURL}/user`, { name: this.name, email: this.email, password: this.password });
       this.$router.push('/login')
     }
   },
