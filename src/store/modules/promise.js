@@ -8,8 +8,13 @@ export default {
             const ListPromises = await answer.data;
             ctx.commit('updatePromiseList', ListPromises)
         },
-        async addPromise(ctx, {userId, addictionId, days }) {
-            const answer = await axios.post(`${config.backendURL}:8080/promises?userId=${userId}&addictionId=${addictionId}&days=${days}`);
+        async addPromise(ctx, {userId, addictionId, days}) {
+            const answer = await axios.post(`${config.backendURL}/promises`,{
+                userId, 
+                addictionId,
+                startDate: Date.parse(new Date()), 
+                expiredDate: days*24*3600*1000 + Date.parse(new Date())
+            });
             const ListPromises = await answer.data;
             ctx.commit('updatePromiseList', ListPromises)
         },
