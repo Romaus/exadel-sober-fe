@@ -1,11 +1,10 @@
 import Vue from 'vue'
 import App from './App.vue'
 import vuetify from './plugins/vuetify'
-import axios from 'axios'
 import VueRouter from 'vue-router'
-import RegistrationPage from './components/RegistrationPage'
-import LoginPage from './components/LoginPage'
-import PersonalPage from './components/PersonalPage'
+import RegistrationPage from './components/RegistrationPage.vue'
+import LoginPage from './components/LoginPage.vue'
+import PersonalPage from './components/PersonalPage.vue'
 import store from './store'
 
 Vue.use(VueRouter)
@@ -39,7 +38,6 @@ Vue.config.productionTip = false
 
 new Vue({
   vuetify,
-  axios,
   router,
   store,
   render: h => h(App)

@@ -3,49 +3,49 @@ import config from '../../config';
 
 export default {
     actions: {
-        async loadPromiseFromServer(ctx, userId) {
+        async loadPromiseFromServer(ctx: { commit: (arg0: string, arg1: any) => void; }, userId: any) {
             const answer = await axios.get(`${config.backendURL}/promises/?userId=${userId}`);
             const ListPromises = await answer.data;
             ctx.commit('updatePromiseList', ListPromises)
         },
-        async addPromise(ctx, {userId, addictionId, days}) {
+        async addPromise(ctx: { commit: (arg0: string, arg1: any) => void; }, {userId, addictionId, days}: any) {
             const answer = await axios.post(`${config.backendURL}/promises`,{
                 userId, 
                 addictionId,
-                startDate: Date.parse(new Date()), 
-                expiredDate: days*24*3600*1000 + Date.parse(new Date())
+                startDate: Date.parse(new Date().toString()), 
+                expiredDate: days*24*3600*1000 + Date.parse(new Date().toString())
             });
             const ListPromises = await answer.data;
             ctx.commit('updatePromiseList', ListPromises)
         },
-        async addReasonForPromise(ctx, {promiseId, reasonDescription}) {
+        async addReasonForPromise(ctx: { commit: (arg0: string, arg1: any) => void; getters: { getCurrentPromise: { promiseId: any; }; }; }, {promiseId, reasonDescription}: any) {
             const answer = await axios.post(`${config.backendURL}/promises/addReason`, {promiseId, description:reasonDescription});
             const ListPromises = await answer.data;
             ctx.commit('updatePromiseList', ListPromises)
-            const currPromise = ListPromises.filter(promise => promise.promiseId === this.getters.getCurrentPromise.promiseId);
+            const currPromise = ListPromises.filter((promise: { promiseId: any; }) => promise.promiseId === ctx.getters.getCurrentPromise.promiseId);
             ctx.commit('updateReasonsList', currPromise[0].reasons)
         },
-        async removePromise(ctx, promiseId) {
+        async removePromise(ctx: { commit: (arg0: string, arg1: any) => void; }, promiseId: any) {
             const answer = await axios.delete(`${config.backendURL}/promises?promiseId=${promiseId}`);
             const ListPromises = await answer.data;
             ctx.commit('updatePromiseList', ListPromises)
         },
-        chooseCurrentPromise(ctx, currentPromise){
+        chooseCurrentPromise(ctx: { commit: (arg0: string, arg1: any) => void; }, currentPromise: { reasons: any; }){
             ctx.commit('setCurrentPromise', currentPromise);
             ctx.commit('setReasonsForCurrentPromise', currentPromise?.reasons)
         }
     },
     mutations: {
-        updatePromiseList(state, newPromisesList) {
+        updatePromiseList(state: { promises: any; }, newPromisesList: any) {
             state.promises = newPromisesList
         },
-        setCurrentPromise(state, currentPromise) {
+        setCurrentPromise(state: { currentPromise: any; }, currentPromise: any) {
             state.currentPromise = currentPromise
         },
-        setReasonsForCurrentPromise(state, reasons) {
+        setReasonsForCurrentPromise(state: { reasonsForCurrentPromise: any; }, reasons: any) {
             state.reasonsForCurrentPromise = reasons
         },
-        updateReasonsList(state, reasons) {
+        updateReasonsList(state: { reasonsForCurrentPromise: any; }, reasons: any) {
             state.reasonsForCurrentPromise = reasons
         }
     },
@@ -55,16 +55,16 @@ export default {
         reasonsForCurrentPromise:[]
     },
     getters: {
-        getAllPromisesFromStore(state) {
+        getAllPromisesFromStore(state: { promises: any; }) {
             return state.promises
         },
-        getCurrentPromise(state) {
+        getCurrentPromise(state: { currentPromise: any; }) {
             return state.currentPromise
         },
-        getCurrentPromiseName(state) {
+        getCurrentPromiseName(state: { currentPromise: { name: any; }; }) {
             return state.currentPromise?.name
         },
-        getReasonsForCurrentPromise(state) {
+        getReasonsForCurrentPromise(state: { reasonsForCurrentPromise: any; }) {
             return state.reasonsForCurrentPromise
         }
     }
