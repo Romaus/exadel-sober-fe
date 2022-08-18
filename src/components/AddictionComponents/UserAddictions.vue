@@ -4,9 +4,9 @@
         <user-addictions-list></user-addictions-list>
     </div>
 </template>
-<script >
-import UserAddictionsForm from './UserAddictionsForm'
-import UserAddictionsList from './UserAddictionsList'
+<script lang="ts">
+import UserAddictionsForm from './UserAddictionsForm.vue'
+import UserAddictionsList from './UserAddictionsList.vue'
 import { mapActions } from 'vuex'
 export default {
     name: 'Addiction-Page',

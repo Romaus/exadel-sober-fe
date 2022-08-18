@@ -24,7 +24,7 @@
         </v-card>
     </v-container>
 </template>
-<script >
+<script lang="ts">
 import { mapGetters, mapActions } from 'vuex'
 export default {
     name: 'Promise-List',

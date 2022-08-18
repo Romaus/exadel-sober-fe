@@ -4,9 +4,9 @@
         <user-promises-list></user-promises-list>
     </div>
 </template>
-<script >
-import userPromisesForm from './UserPromisesForm'
-import userPromisesList from './UserPromisesList'
+<script lang="ts">
+import userPromisesForm from './UserPromisesForm.vue'
+import userPromisesList from './UserPromisesList.vue'
 import { mapGetters, mapActions } from 'vuex'
 export default {
     name: 'Promises-Page',

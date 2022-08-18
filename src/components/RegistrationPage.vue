@@ -39,7 +39,7 @@
   </v-container>
 </template>
 
-<script>
+<script lang="ts">
 import axios from 'axios';
 import config from '@/config';
 export default {

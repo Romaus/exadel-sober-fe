@@ -25,7 +25,7 @@
         </v-btn>
     </v-container>
 </template>
-<script >
+<script lang="ts">
 import { mapGetters, mapActions } from 'vuex'
 export default {
     name: 'Promises-Form',
@@ -44,7 +44,8 @@ export default {
             await this.addPromise({
                 userId,
                 addictionId: this.addiction.addictionId,
-                days: this.days
+                startDate: Date.parse(new Date().toString()),
+                expiredDate: this.days*24*3600*1000 + Date.parse(new Date().toString())
             });
             this.addiction = '';
             this.days = '';
