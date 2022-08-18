@@ -1,5 +1,6 @@
 import axios from 'axios';
 import config from '../../config';
+import { Addiction } from '@/types';
 
 export default {
     actions: {
@@ -8,22 +9,22 @@ export default {
             const ListAddiction = await answer.data;
             ctx.commit('updateAddictionList', ListAddiction)
         },
-        async addAddiction(ctx: { commit: (arg0: string, arg1: any) => void; }, {name, description}: any) {
-            const answer = await axios.post(`${config.backendURL}/addictions`, { name, description });
+        async addAddiction(ctx: { commit: (arg0: string, arg1: any) => void; }, newAddiction: Addiction) {
+            const answer = await axios.post(`${config.backendURL}/addictions`, newAddiction);
             const ListAddiction = await answer.data;
             ctx.commit('updateAddictionList', ListAddiction)
         }
     },
     mutations: {
-        updateAddictionList(state: { addictions: any; }, newAddictionsList: any) {
+        updateAddictionList(state: { addictions: Addiction[]; }, newAddictionsList: Addiction[]) {
             state.addictions = newAddictionsList
         }
     },
     state: {
-        addictions: []
+        addictions: [] as Addiction[]
     },
     getters: {
-        getAllAddictionsFromStore(state: { addictions: any; }) {
+        getAllAddictionsFromStore(state: { addictions: Addiction[]; }): Addiction[] {
             return state.addictions
         }
     }

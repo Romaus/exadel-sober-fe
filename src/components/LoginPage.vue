@@ -36,7 +36,7 @@
         </v-row>
     </v-container>
 </template>
-<script >
+<script lang="ts">
 import { mapActions, mapGetters } from 'vuex'
 import config from '@/config';
 export default {

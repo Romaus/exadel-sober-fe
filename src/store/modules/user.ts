@@ -1,12 +1,13 @@
 import axios from 'axios';
 import config from '../../config';
+import { User } from '@/types';
 
 export default {
     actions: {
-        async login(ctx: { commit: (arg0: string, arg1: any) => void; }, {email, password}: any) {
+        async login(ctx: { commit: (arg0: string, arg1: any) => void; }, { email, password}: User) {
             const answer = await axios.post(`${config.backendURL}/user/login`, { email: email, password: password });
-            const data = await answer.data;
-            ctx.commit('setCurrentUser', data)
+            const user: User = await answer.data;
+            ctx.commit('setCurrentUser', user)
         },
         async logout(ctx: { commit: (arg0: string, arg1: null) => void; }) {
             ctx.commit('setCurrentUser', null)
@@ -19,28 +20,28 @@ export default {
         }
     },
     mutations: {
-        setCurrentUser(state: { currentUser: any; }, currentUser: any) {
+        setCurrentUser(state: { currentUser: User; }, currentUser: User): void {
             state.currentUser = currentUser
         },
-        setStateDialog(state: { stateDialog: any; }, show: any) {
+        setStateDialog(state: { stateDialog: boolean; }, show: boolean): void {
             state.stateDialog = show
         }
     },
     state: {
-        currentUser: null,
-        stateDialog: false
+        currentUser: {} as User,
+        stateDialog: false as boolean
     },
     getters: {
-        getUser(state: { currentUser: any; }) {
+        getUser(state: { currentUser: User; }): User {
             return state.currentUser
         },
-        getUserName(state: { currentUser: { name: any; }; }) {
+        getUserName(state: { currentUser: { name: string; }; }): string {
             return state.currentUser?.name
         },
-        getUserId(state: { currentUser: { userId: any; }; }) {
+        getUserId(state: { currentUser: { userId: number; }; }): number {
             return state.currentUser.userId
         },
-        getDialogState(state: { stateDialog: any; }) {
+        getDialogState(state: { stateDialog: boolean; }): boolean {
             return state.stateDialog
         }
     }

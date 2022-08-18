@@ -61,10 +61,10 @@
         </v-dialog>
     </v-container>
 </template>
-<script >
+<script lang="ts">
 import { mapGetters, mapActions } from 'vuex'
-import UserAddictions from './AddictionComponents/UserAddictions'
-import UserPromises from './PromiseComponents/UserPromises'
+import UserAddictions from './AddictionComponents/UserAddictions.vue'
+import UserPromises from './PromiseComponents/UserPromises.vue'
 export default {
     name: 'Personal-Page',
     components: {
@@ -91,7 +91,7 @@ export default {
         async addNewReason() {
             await this.addReasonForPromise({
                 promiseId: this.getCurrentPromise.promiseId,
-                reasonDescription: this.reasonDescription
+                description: this.reasonDescription
             })
             this.reasonDescription = '';
         },
@@ -100,7 +100,7 @@ export default {
             this.hideDialog()
         },
         checkLogin() {
-            if (!this.getUser) { this.$router.push(`/login`) }
+            if (!this.getUserName) { this.$router.push(`/login`) }
         },
         async quit() {
             await this.logout();

@@ -19,7 +19,7 @@
         </v-btn>
     </v-container>
 </template>
-<script >
+<script lang="ts">
 import { mapActions } from 'vuex'
 export default {
     name: 'Addiction-Form',
